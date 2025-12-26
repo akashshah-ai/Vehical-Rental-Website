@@ -4,58 +4,6 @@
 A simple Vehicle Rentals web application built with PHP, MySQL, HTML and CSS, running inside Docker containers.  
 Features include user registration/login, browsing cars and bikes, booking flow, location map, and a payment UI.
 
-## Project Structure
-
-
-Vehical-Rental-Website/
-app/
-├── aboutus.php
-├── aboutus1.php
-├── afterloginhome.php
-├── bikes.php
-├── bikes1.php
-├── book.php
-├── cars.php
-├── cars1.php
-├── citylocation.php
-├── config.php          # PDO DB connection (db / car_rentals / root / root)
-├── confirm.php
-├── create.php          # registration helper / create account
-├── css/
-│   ├── aboutusstyle.css
-│   ├── bikestyle.css
-│   ├── bookstyle.css
-│   ├── carsstyle.css
-│   ├── citylocationstyle.css
-│   ├── confirmstyle.css
-│   ├── createstyle.css
-│   ├── firststyle.css
-│   ├── login.css
-│   ├── loginreq.css
-│   ├── mapstyle.css
-│   ├── optionstyle.css
-│   ├── paystyle.css
-│   ├── policy.css
-│   └── regstyle.css
-├── demo.php
-├── demo1.php
-├── errors.php          # validation error display
-├── firstpage.php       # landing page (with top login form)
-├── images/             # all car/bike/place/logo images
-├── index.php           # main entry page (same layout as firstpage)
-├── jack.php
-├── login.php           # full-page login
-├── loginneed.php
-├── map.php             # hubs map page
-├── option.php / option1.php
-├── orderpage.php
-├── payment.php
-├── policy.php
-├── policy1.php
-├── register.php        # registration form (includes server1.php, errors.php)
-├── server1.php         # registration logic (INSERT into users)      
-└── server2.php  # extra server logic (if used)
-
 
 ## Requirements
 
