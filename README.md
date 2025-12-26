@@ -8,6 +8,7 @@ Features include user registration/login, browsing cars and bikes, booking flow,
 
 
 Vehical-Rental-Website/
+
 ├── app/
 │ ├── *.php # All PHP pages (home, login, register, cars, bikes, etc.)
 │ ├── css/ # Stylesheets
