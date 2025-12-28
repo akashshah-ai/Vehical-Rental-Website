@@ -1,8 +1,7 @@
 
-# Vehicle Rentals – PHP & MySQL (Dockerized)
+# Vehicle Rentals (PHP, MySQL, Docker, Kubernetes)
 
-A simple Vehicle Rentals web application built with PHP, MySQL, HTML and CSS, running inside Docker containers.  
-Features include user registration/login, browsing cars and bikes, booking flow, location map, and a payment UI.
+Containerized a legacy PHP/MySQL application and deployed it on Kubernetes by authoring Deployments, Services, PV/PVCs, ConfigMaps, and Secrets. Implemented MySQL data persistence and schema migration using init scripts, resulting in a scalable multi-pod architecture.
 
 
 ## Requirements
