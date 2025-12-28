@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysql-secret
+  namespace: vehicle-rentals
+type: Opaque
+stringData:
+  MYSQL_ROOT_PASSWORD: "root"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mysql-config
+  namespace: vehicle-rentals
+data:
+  MYSQL_DATABASE: "car_rentals"
+
