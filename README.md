@@ -32,12 +32,6 @@ The `init.sql` file creates the `car_rentals` database and tables:
 - `carspage` (car listings)
 - `bikespage` (bike listings)
 
-A default admin user is inserted:
-
-- Email: `admin`
-- Password: `admin`  
-(password stored as MD5 hash in the `password` column)
-
 ## Main Pages
 
 - `index.php` / `firstpage.php` – Landing page with top-bar login.
@@ -50,17 +44,6 @@ A default admin user is inserted:
 - `payment.php` / `confirm.php` – Payment UI and confirmation page.
 - `aboutus.php`, `policy.php` – Static info pages.
 
-## Configuration
-
-Database connection is centralized in `app/config.php`:
-
-
-$host = 'db';
-$dbname = 'car_rentals';
-$username = 'root';
-$password = 'root';
-host;dbname=$dbname", $username, $password);
-$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 The PHP containers talk to MySQL using the Docker network hostname `db` (the `db` service defined in `docker-compose.yaml`).
 
@@ -74,3 +57,70 @@ docker compose up -d
 
 to recreate the database.
 - Cars and bikes listings use the `image` path stored in the DB pointing to files under `app/images/`.
+
+--------------------------------------------------------------------------------------------------------
+
+# Run Vehicle Rentals on Kubernetes
+
+Clone the Vehicle Rentals project and deploy it to a Kubernetes cluster using the manifests in the `k8s/` folder.
+
+## 1. Clone the repository
+
+git clone https://github.com/akash00121/Vehical-Rental-Website.git
+cd Vehical-Rental-Website
+
+Make sure `k8s/app.yaml` contains a valid image that your cluster can pull, for example from Docker Hub or a local registry:
+
+image: akash00121/vehicle-rentals-app:v1
+
+
+## 2. Create the namespace
+
+All Kubernetes objects for this app live in the `vehicle-rentals` namespace, defined in `k8s/namespace.yaml`. Create it first:
+
+cd k8s
+kubectl apply -f namespace.yaml
+kubectl get ns vehicle-rentals
+
+The namespace must exist before you apply the other manifests, otherwise you get “namespaces `vehicle-rentals` not found” errors.[web:59]
+
+## 3. Apply all Kubernetes manifests
+
+With the namespace in place, apply all remaining files in the `k8s` folder:
+
+kubectl apply -f .
+
+This will create:
+
+- MySQL Secret + ConfigMap (`mysql-config.yaml`)
+- MySQL init SQL ConfigMap (`mysql-init-configmap.yaml`)
+- MySQL PV, PVC, Deployment, Service (`mysql.yaml`)
+- PHP/Apache app Deployment + Service (`app.yaml`)
+
+Check that everything is running:
+
+kubectl get all -n vehicle-rentals
+
+You should see `mysql` and `vehicle-rentals-app` pods in `Running` state, along with their Services.[web:59]
+
+## 4. Access the application
+
+The app Service is a `NodePort` on port `30080` (see `app.yaml`).[web:69]
+
+- On a standard cluster:
+
+http://<node-ip>:30080
+
+- On Minikube:
+
+minikube service vehicle-rentals-service -n vehicle-rentals --url
+
+
+## 5. Clean up
+
+To delete the app and its data:
+
+kubectl delete namespace vehicle-rentals
+kubectl delete pv mysql-pv   # if created by mysql.yaml
+
+This removes the namespace (and all objects inside it) plus the manual PersistentVolume.
